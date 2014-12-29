@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/assets/ico/favicon.ico">
+
+    <title>Cornhole Lights</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+      <style>
+      body {
+height: 100%;
+width: 100%;
+position: absolute;
+      }
+
+.container, 
+.btn { height: 100%; }
+.row{ height: 20%; padding-left: 5px; padding-right: 5px; }
+.btn-group{height: 100px }
+.container { width: 100% }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    
+    <div class="container">
+
+
+
+<div class="container" id="zone_list">
+</div>
+<!--
+<div class="col-md-6">
+   <button type="button" id="remote1" data-url="on" class="btn btn-success btn-lg">
+  All On
+</button>
+</div>
+  <div class="col-md-6">
+<button type="button" id="remote2" data-url="off" class="btn btn-default btn-lg">
+  All Off
+</button>
+-->
+
+<script>
+   function loadURL() {
+     var btn = $(this)
+     var xmlHttp = null;
+
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "http://house.anchorempires.com:2000/" + this.getAttribute('data-url'), false );
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+  };
+
+
+ $(document).ready(function(){  
+      var vertButtons = document.getElementById("zone_list");
+      var zones = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      var zoneNames = ["All", "Living Room", "Kitchen", "Living Room Lamp", "Front Room", "Office", "Hall", "Bedside Left", "Bedside Right", "Master"];
+      var newButton = function(text,url,cls){
+         var bgrp = document.createElement("div");
+         bgrp.className = bgrp.className + "btn-group";
+         
+         var button = document.createElement("button");
+         button.className = button.className + "btn btn-default remote-btn" + cls;
+         button.setAttribute('type', "button");
+         button.setAttribute('data-url', url);
+         button.textContent = text;
+         bgrp.appendChild(button);
+         
+         return bgrp;
+      };      
+            
+      var div = document.createElement("div");
+      div.className = div.className + "row";
+
+      zones.forEach(function (zone) {
+		      var col = document.createElement("div");
+            if( zone == 0 )
+            {
+              col.className = col.className + "col-xs-12";
+            }
+            else 
+            {
+              col.className = col.className + "col-md-4 col-sm-6 col-xs-12";
+            }
+
+		      var grp = document.createElement("div");
+		      grp.className = grp.className + "btn-group  btn-group-justified";
+
+		      var buttonOn = newButton(zoneNames[zone], "zone/"+zone+"/1"," btn-success");      
+		      var buttonOff = newButton("OFF", "zone/"+ zone+"/0","");
+
+		      grp.appendChild(buttonOn);  
+		      grp.appendChild(buttonOff);
+
+		      col.appendChild(grp);
+		      div.appendChild(col);
+            
+			if( zone == 0 )
+			{
+            vertButtons.appendChild(div);  
+               
+            div = document.createElement("div");
+            div.className = div.className + "row";
+         }
+      });      
+      vertButtons.appendChild(div);   
+         
+   
+  $('.remote-btn').click(loadURL);
+ });
+//$('.remote-btn').on( "click",
+   
+  
+</script>
+
+</div>
+</div>
+
+    </div><!-- /.container -->
+
+  </body>
+</html>
