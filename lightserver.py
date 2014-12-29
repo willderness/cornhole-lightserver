@@ -18,8 +18,11 @@ def getBridge(id):
     return wifileds.limitlessled.connect(bridgeIps[id], 8899)
 
 @app.route('/')
-def hello_world():
+def index():
     return 'Light Server'
+
+def hello_world():
+    return 'OK'
 
 @app.route('/on')
 def all_on():
@@ -53,7 +56,7 @@ def zone(z, level):
         allzones(level);
     else:
         bri = getBridge(id)
-        zNum = 1 + (z % 4);
+        zNum = (z % 4) or 4;
         if zoneTypes[id] == ColorTypes.White:
             if level == 0:
                 bri.white.zone_off(zNum)
@@ -71,7 +74,7 @@ def zone(z, level):
 
 
         del bri
-        return hello_world();
+    return hello_world();
 
 def allzones( level ):
     for id in bridgeIps:
@@ -91,7 +94,6 @@ def allzones( level ):
                 bri.rgbw.all_on()
             else:
                 bri.white.all_on()
-
 
 
 if __name__ == '__main__':
